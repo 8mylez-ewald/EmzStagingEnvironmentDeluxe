@@ -4,10 +4,10 @@
     <label lang="de">EmzStagingEnvironmentDeluxe</label>
     <label lang="en">EmzStagingEnvironmentDeluxe</label>
     <version>1.0.0</version>
-    <copyright>(c) by Shopware AG</copyright>
+    <copyright>(c) by 8mylez.com</copyright>
     <license>proprietary</license>
-    <link>http://store.shopware.com</link>
-    <author>Shopware AG</author>
+    <link>http://store.8mylez.com</link>
+    <author>http://8mylez.com</author>
 
     <compatibility minVersion="5.2.0" />
 

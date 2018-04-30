@@ -21,13 +21,12 @@ class SyncService {
         $this->modelManager = $modelManager;
         $this->connection = $connection;
         $this->fileSystem = $fileSystem;
-        $this->docPath = Shopware()->DocPath();
     }
 
     public function syncCore() {
         $subfolder = 'staging';
 
-        $folders = [
+        $foldersTopCopy = [
             'bin',
             'custom',
             'engine',
@@ -36,43 +35,26 @@ class SyncService {
             'vendor'
         ];
 
-        foreach($folders as $folder) {
+        $foldersToCreate = [
+            'var',
+            'var/cache',
+            'var/log',
+            'web',
+            'web/cache'
+        ];
+
+        foreach($foldersTopCopy as $folder) {
             if($this->fileSystem->exists($this->rootDir.'/'.$folder)){
                 $this->fileSystem->mirror($this->rootDir.'/'.$folder, $this->rootDir.'/'.$subfolder.'/'.$folder);
             }
         }
-    }
 
-    public function syncPlugins() {
-        $pluginModel = $this->modelManager->getRepository(Plugin::class);
-        $plugins = $pluginModel->findAll();
-
-        foreach($plugins as $plugin) {
-            echo "<pre>\n";
-            print_r($plugin->getName());
-            echo "</pre>\n";
+        foreach($foldersToCreate as $folder) {
+            if(!$this->fileSystem->exists($this->rootDir.'/'.$subfolder.'/'.$folder)){
+                $this->fileSystem->mkdir($this->rootDir.'/'.$subfolder.'/'.$folder);
+            }
         }
-
-        die();
-
     }
-
-    public function syncThemes() {
-        $builder = $this->connection->createQueryBuilder();
-        $builder->select('id, template, name, description, author, license')
-                ->from('s_core_templates');
-        $stmt = $builder->execute();
-        $themes = $stmt->fetchAll();
-
-        foreach($themes as $theme) {
-            echo "<pre>\n";
-            print_r($theme);
-            echo "</pre>\n";
-        }
-
-        die();
-    }
-    
 
     public function syncMedia() {
 

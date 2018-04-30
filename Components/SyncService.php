@@ -5,15 +5,42 @@ namespace EmzStagingEnvironmentDeluxe\Components;
 use Shopware\Components\Model\ModelManager;
 use Shopware\Models\Plugin\Plugin;
 use Doctrine\DBAL\Connection;
+use Shopware\Components\Plugin\ConfigReader;
+use Symfony\Component\Filesystem\Filesystem;
 
 class SyncService {
 
     private $modelManager;
     private $connection;
+    private $configReader;
+    private $fileSystem;
+    private $rootDir;
 
-    public function __construct(ModelManager $modelManager, Connection $connection) {
+    public function __construct($rootDir, ModelManager $modelManager, Connection $connection, Filesystem $fileSystem) {
+        $this->rootDir = $rootDir;
         $this->modelManager = $modelManager;
         $this->connection = $connection;
+        $this->fileSystem = $fileSystem;
+        $this->docPath = Shopware()->DocPath();
+    }
+
+    public function syncCore() {
+        $subfolder = 'staging';
+
+        $folders = [
+            'bin',
+            'custom',
+            'engine',
+            'files',
+            'recovery',
+            'vendor'
+        ];
+
+        foreach($folders as $folder) {
+            if($this->fileSystem->exists($this->rootDir.'/'.$folder)){
+                $this->fileSystem->mirror($this->rootDir.'/'.$folder, $this->rootDir.'/'.$subfolder.'/'.$folder);
+            }
+        }
     }
 
     public function syncPlugins() {
@@ -45,10 +72,7 @@ class SyncService {
 
         die();
     }
-
-    public function syncCore() {
-
-    }
+    
 
     public function syncMedia() {
 

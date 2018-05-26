@@ -31,7 +31,7 @@ use Shopware\Components\Model\ModelEntity;
  * Staging Model
  *
  * @ORM\Entity()
- * @ORM\Table(name="s_staging_environments")
+ * @ORM\Table(name="emz_staging_environments")
  */
 class Staging extends ModelEntity
 {

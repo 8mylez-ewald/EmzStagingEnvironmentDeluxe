@@ -3,7 +3,7 @@ Ext.define('Shopware.apps.StagingList.view.list.Window', {
     extend: 'Shopware.window.Listing',
     alias: 'widget.emz-staging-list-window',
     height: 450,
-    title : '{s name=window_title}StagingList listing{/s}',
+    title : '{s name=window_title}Staging Übersicht{/s}',
 
     configure: function() {
         return {

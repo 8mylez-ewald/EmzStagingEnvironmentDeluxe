@@ -12,6 +12,7 @@ Ext.define('Shopware.apps.StagingList.model.Main', {
 
     fields: [
         { name : 'id', type: 'int', useNull: true },
-        { name : 'name', type: 'string', useNull: false }
+        { name : 'name', type: 'string' },
+        { name : 'createdOn', type: 'date' },
     ]
 });

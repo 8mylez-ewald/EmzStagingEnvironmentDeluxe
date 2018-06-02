@@ -106,4 +106,156 @@ class Staging extends ModelEntity
      * @ORM\Column(name="staging_config", type="string", nullable=false)
      */
     private $StagingConfig;
+
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+    
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCreatedOn()
+    {
+        return $this->createdOn;
+    }
+
+    /**
+     * @param mixed $createdOn
+     */
+    public function setCreatedOn($createdOn)
+    {
+        $this->createdOn = $createdOn;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDbHost()
+    {
+        return $this->dbHost;
+    }
+
+    /**
+     * @param string $dbHost
+     */
+    public function setDbHost($dbHost)
+    {
+        $this->dbHost = $dbHost;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDbPort()
+    {
+        return $this->dbPort;
+    }
+
+    /**
+     * @param string $dbPort
+     */
+    public function setDbPort($dbPort)
+    {
+        $this->dbPort = $dbPort;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDbName()
+    {
+        return $this->dbName;
+    }
+
+    /**
+     * @param string $dbName
+     */
+    public function setDbName($dbName)
+    {
+        $this->dbName = $dbName;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDbUser()
+    {
+        return $this->dbUser;
+    }
+
+    /**
+     * @param string $dbUser
+     */
+    public function setDbUser($dbUser)
+    {
+        $this->dbUser = $dbUser;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDbPassword()
+    {
+        return $this->dbPassword;
+    }
+
+    /**
+     * @param string $dbPassword
+     */
+    public function setDbPassword($dbPassword)
+    {
+        $this->dbPassword = $dbPassword;
+    }
+
+    /**
+     * @return string
+     */
+    public function getExcludedFolders()
+    {
+        return $this->excludedFolders;
+    }
+
+    /**
+     * @param string $excludedFolders
+     */
+    public function setExcludedFolders($excludedFolders)
+    {
+        $this->excludedFolders = $excludedFolders;
+    }
+
+    /**
+     * @return string
+     */
+    public function getStagingConfig()
+    {
+        return $this->StagingConfig;
+    }
+
+    /**
+     * @param string $StagingConfig
+     */
+    public function setStagingConfig($StagingConfig)
+    {
+        $this->StagingConfig = $StagingConfig;
+    }
 }

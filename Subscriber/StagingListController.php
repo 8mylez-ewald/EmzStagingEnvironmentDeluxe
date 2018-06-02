@@ -35,7 +35,8 @@ class StagingListController implements SubscriberInterface
     public static function getSubscribedEvents()
     {
         return array(
-            'Enlight_Controller_Dispatcher_ControllerPath_Backend_StagingList' => 'addStagingListController'
+            'Enlight_Controller_Dispatcher_ControllerPath_Backend_StagingList' => 'addStagingListController',
+            'Enlight_Controller_Dispatcher_ControllerPath_Backend_Staging' => 'addStagingController'
         );
     }
 
@@ -51,6 +52,21 @@ class StagingListController implements SubscriberInterface
         );
 
         return $this->pluginDir . '/Controllers/Backend/StagingList.php';
+
+    }
+
+    /**
+     * @param \Enlight_Event_EventArgs $args
+     *
+     * @return string
+     */
+    public function addStagingController(\Enlight_Event_EventArgs $args)
+    {
+        $this->templateManager->addTemplateDir(
+            $this->pluginDir . '/Resources/Views/'
+        );
+
+        return $this->pluginDir . '/Controllers/Backend/Staging.php';
 
     }
 }

@@ -7,13 +7,11 @@ Ext.define('Shopware.apps.StagingList.view.list.List', {
     configure: function() {
         return {
             detailWindow: 'Shopware.apps.StagingList.view.detail.Window',
-            rowEditing: true,
-            deleteButton: false,
+            deleteColumn: false,
             columns: {
                 name: {
                     header: 'Name'
                 },
-
                 createdOn: {
                     header: 'Erstellt am',
                     format: 'd.m.Y',
@@ -21,5 +19,18 @@ Ext.define('Shopware.apps.StagingList.view.list.List', {
                 }
             }
         };
+    },
+
+    createActionColumnItems: function() {
+        var me = this,
+            items = me.callParent(arguments);
+
+        items.push({
+            action: 'actionName', iconCls: 'sprite-arrow-circle-315', handler: function() {
+                console.log('hi');
+            }
+        });
+
+        return items;
     }
 });

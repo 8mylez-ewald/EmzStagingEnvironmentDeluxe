@@ -52,6 +52,13 @@ class Staging extends ModelEntity
     private $name;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="directory", type="string", nullable=false)
+     */
+    private $directory;
+
+    /**
      * @var @var \DateTime
      *
      * @ORM\Column(name="created_on", type="date", nullable=false)
@@ -101,11 +108,39 @@ class Staging extends ModelEntity
     private $excludedFolders;
 
     /**
-     * @var string
+     * @var boolean
      *
-     * @ORM\Column(name="staging_config", type="string", nullable=false)
+     * @ORM\Column(name="display_errors", type="boolean", nullable=true)
      */
-    private $StagingConfig;
+    private $displayErrors;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="disable_csrf_token", type="boolean", nullable=true)
+     */
+    private $disableCsrfToken;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="deactivate_compiler_caching", type="boolean", nullable=true)
+     */
+    private $deactivateCompilerCaching;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="activate_maintenance", type="boolean", nullable=true)
+     */
+    private $activateMaintenance;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="move_media_dir", type="boolean", nullable=true)
+     */
+    private $moveMediaDir;
 
     /**
      * @return int
@@ -114,7 +149,7 @@ class Staging extends ModelEntity
     {
         return $this->id;
     }
-    
+
     /**
      * @return string
      */
@@ -129,6 +164,22 @@ class Staging extends ModelEntity
     public function setName($name)
     {
         $this->name = $name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDirectory()
+    {
+        return $this->directory;
+    }
+
+    /**
+     * @param string $directory
+     */
+    public function setDirectory($directory)
+    {
+        $this->directory = $directory;
     }
 
     /**
@@ -244,18 +295,82 @@ class Staging extends ModelEntity
     }
 
     /**
-     * @return string
+     * @return boolean
      */
-    public function getStagingConfig()
+    public function getDisplayErrors()
     {
-        return $this->StagingConfig;
+        return $this->displayErrors;
     }
 
     /**
-     * @param string $StagingConfig
+     * @param boolean $displayErrors
      */
-    public function setStagingConfig($StagingConfig)
+    public function setDisplayErrors($displayErrors)
     {
-        $this->StagingConfig = $StagingConfig;
+        $this->displayErrors = $displayErrors;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getDisableCsrfToken()
+    {
+        return $this->disableCsrfToken;
+    }
+
+    /**
+     * @param boolean $disableCsrfToken
+     */
+    public function setDisableCsrfToken($disableCsrfToken)
+    {
+        $this->disableCsrfToken = $disableCsrfToken;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getDeactivateCompilerCaching()
+    {
+        return $this->deactivateCompilerCaching;
+    }
+
+    /**
+     * @param boolean $deactivateCompilerCaching
+     */
+    public function setDeactivateCompilerCaching($deactivateCompilerCaching)
+    {
+        $this->$deactivateCompilerCaching = $deactivateCompilerCaching;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getActivateMaintenance()
+    {
+        return $this->activateMaintenance;
+    }
+
+    /**
+     * @param boolean $activateMaintenance
+     */
+    public function setActivateMaintenance($activateMaintenance)
+    {
+        $this->activateMaintenance = $activateMaintenance;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getMoveMediaDir()
+    {
+        return $this->moveMediaDir;
+    }
+
+    /**
+     * @param boolean $moveMediaDir
+     */
+    public function setMoveMediaDir($moveMediaDir)
+    {
+        $this->moveMediaDir = $moveMediaDir;
     }
 }

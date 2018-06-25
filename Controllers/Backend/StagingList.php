@@ -11,15 +11,8 @@ class Shopware_Controllers_Backend_StagingList extends Shopware_Controllers_Back
     {
         $staging = new Staging();
 
-        $staging->setName($data['name']);
+        $staging->fromArray($data);
         $staging->setCreatedOn(date("Y-m-d"));
-        $staging->setDbHost($data['dbHost']);
-        $staging->setDbPort($data['dbPort']);
-        $staging->setDbName($data['dbName']);
-        $staging->setDbUser($data['dbUser']);
-        $staging->setDbPassword($data['dbPassword']);
-        $staging->setExcludedFolders($data['excludedFolders']);
-        $staging->setStagingConfig('lol');
 
         $em = $this->get('models');
 

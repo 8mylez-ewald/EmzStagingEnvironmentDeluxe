@@ -7,7 +7,6 @@ Ext.define('Shopware.apps.StagingList.view.list.List', {
     configure: function() {
         return {
             detailWindow: 'Shopware.apps.StagingList.view.detail.Window',
-            deleteColumn: false,
             columns: {
                 name: {
                     header: 'Name'

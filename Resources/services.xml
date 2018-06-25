@@ -16,5 +16,12 @@
         <service id="emz_sed.controller" class="EmzStagingEnvironmentDeluxe\Subscriber\Controller">
             <tag name="shopware.event_subscriber" />
         </service>
+
+        <service id="emz_sed.staging_list_controller" class="EmzStagingEnvironmentDeluxe\Subscriber\StagingListController">
+            <tag name="shopware.event_subscriber" />
+            <argument type="string">%emz_sed.plugin_dir%</argument>
+            <argument type="service" id="template"/>
+        </service>
+
     </services>
 </container>

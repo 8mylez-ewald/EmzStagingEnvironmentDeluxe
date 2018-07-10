@@ -9,6 +9,9 @@
             <argument type="service" id="dbal_connection" />
             <argument type="service" id="file_system" />
         </service>
+        <service id="emz_sed.database_service" class="EmzStagingEnvironmentDeluxe\Components\DatabaseService">
+            <argument type="service" id="dbal_connetion" />
+        </service>
         <service id="emz_sed.config_file_service" class="EmzStagingEnvironmentDeluxe\Components\ConfigFile\ConfigFileService">
             <argument>%kernel.root_dir%</argument>
             <argument type="service" id="file_system" />

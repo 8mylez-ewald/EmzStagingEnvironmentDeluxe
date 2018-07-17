@@ -25,6 +25,14 @@ Ext.define('Shopware.apps.StagingList.view.list.List', {
             items = me.callParent(arguments);
 
         items.push({
+            iconCls: 'sprite-cookie--plus',
+            action: 'createButton',
+            handler: function(){
+                console.log('I like cookies');
+            }
+        });
+
+        items.push({
             action: 'actionName', iconCls: 'sprite-arrow-circle-315', handler: function() {
                 console.log('hi');
             }

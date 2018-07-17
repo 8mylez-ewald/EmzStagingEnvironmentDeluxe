@@ -19,4 +19,9 @@ class Shopware_Controllers_Backend_StagingList extends Shopware_Controllers_Back
         $em->persist($staging);
         $em->flush();
     }
+
+    public function createStaging()
+    {
+        //@TODO call Service with Data like offset and limit
+    }
 }

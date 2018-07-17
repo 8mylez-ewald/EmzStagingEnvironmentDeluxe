@@ -7,14 +7,16 @@ Ext.define('Shopware.apps.StagingList', {
     loadPath: '{url action=load}',
     bulkLoad: true,
 
-    controllers: [ 'Main' ],
+    controllers: [ 'Main', 'Staging' ],
 
     views: [
         'list.Window',
         'list.List',
 
         'detail.Container',
-        'detail.Window'
+        'detail.Window',
+
+        'staging.Main'
     ],
 
     models: [ 'Main' ],

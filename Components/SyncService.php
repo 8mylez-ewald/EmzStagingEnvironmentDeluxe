@@ -73,40 +73,51 @@ class SyncService {
         return true;
     }
 
-    public function syncMedia() {
+    public function syncMedia($mediaPaths, $subFolder = 'staging') {
+
+        $mediaService = Shopware()->Container()->get('shopware_media.media_service');
+
+        foreach($mediaPaths as $path){
+            $path['path'] = $mediaService->encode($path['path']);
+            // if(!$this->fileSystem->exists($this->rootDir.'/'.$subFolder.'/'.$path['path'])) {
+                $this->fileSystem->copy($this->rootDir.'/'.$path['path'], $this->rootDir.'/'.$subFolder.'/'.$path['path']);
+            // }
+        }
+
+
 
         //maybe select wich albums should be copied?
         //get albums
-        $builder = Shopware()->Models()->createQueryBuilder();
-        $albumId = $this->Request()->getParam('albumId', null);
+        // $builder = Shopware()->Models()->createQueryBuilder();
+        // $albumId = $this->Request()->getParam('albumId', null);
+        //
+        // $builder->select(['album'])
+        //     ->from('Shopware\Models\Media\Album', 'album')
+        //     ->where('album.parentId IS NULL')
+        //     ->orderBy('album.position', 'ASC');
+        //
+        // if (!empty($albumId)) {
+        //     if (strpos($albumId, ',') !== false) {
+        //         $albumId = explode(',', $albumId);
+        //     } else {
+        //         $albumId = [$albumId];
+        //     }
+        //     $builder->andWhere('album.id IN(:albumId)')
+        //         ->setParameter('albumId', $albumId);
+        // }
+        //
+        // $albums = $builder->getQuery()->getResult();
+        // $albums = $this->toTree($albums);
+        // $filter = $this->Request()->albumFilter;
+        //
+        // if (!empty($filter)) {
+        //     $albums = $this->filterAlbums($albums, $filter);
+        // }
 
-        $builder->select(['album'])
-            ->from('Shopware\Models\Media\Album', 'album')
-            ->where('album.parentId IS NULL')
-            ->orderBy('album.position', 'ASC');
-
-        if (!empty($albumId)) {
-            if (strpos($albumId, ',') !== false) {
-                $albumId = explode(',', $albumId);
-            } else {
-                $albumId = [$albumId];
-            }
-            $builder->andWhere('album.id IN(:albumId)')
-                ->setParameter('albumId', $albumId);
-        }
-
-        $albums = $builder->getQuery()->getResult();
-        $albums = $this->toTree($albums);
-        $filter = $this->Request()->albumFilter;
-        
-        if (!empty($filter)) {
-            $albums = $this->filterAlbums($albums, $filter);
-        }
-
-        //$this->View()->assign(['success' => true, 'data' => $albums, 'total' => count($albums)]); 
+        //$this->View()->assign(['success' => true, 'data' => $albums, 'total' => count($albums)]);
     }
 
     public function syncFiles() {
-        //the files that are created from shopware, e.g. invoices 
+        //the files that are created from shopware, e.g. invoices
     }
 }

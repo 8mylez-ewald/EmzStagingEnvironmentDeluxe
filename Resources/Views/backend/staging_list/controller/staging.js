@@ -2,6 +2,12 @@
 Ext.define('Shopware.apps.StagingList.controller.Staging', {
     extend: 'Enlight.app.Controller',
 
+    snippets: {
+        errorTitle: '{s name=error/title}Error{/s}',
+        errorMessage: '{s name=thumbnail/batch/error_message}An error has occurred while generating the item thumbnails:{/s}',
+        finished: '{s name=thumbnail/batch/finished}Finished{/s}'
+    },
+
     init: function () {
         var me = this;
 console.log('inStagingController');
@@ -20,7 +26,7 @@ console.log('inStagingController');
 
     onCreateStagingWindow: function(){
         var me = this;
-console.log('onCreateStagingWindow');
+
         me.window = me.getView('staging.Main').create({ }).show();
     },
 
@@ -38,11 +44,11 @@ console.log('onCreateStagingWindow');
         return {
             batchSize: 20,
             snippet: 'win.snippets.batch.process',
-            totalCount: 23,
+            totalCount: 146,
             progress: win.stagingProgress,
             requestUrl: '{url controller="StagingList" action="createStaging"}',
             params: {
-                albumId: -1
+                offset: 0
             }
         }
     },

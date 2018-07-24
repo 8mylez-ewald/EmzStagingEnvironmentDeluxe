@@ -20,8 +20,36 @@ class Shopware_Controllers_Backend_StagingList extends Shopware_Controllers_Back
         $em->flush();
     }
 
-    public function createStaging()
+    public function createStagingAction()
     {
+        $offset = $this->Request()->getParam('offset');
+        $limit = $this->Request()->getParam('limit');
+
+        $mediaPaths = $this->getMediaPaths($offset, $limit);
+        $this->get('emz_sed.sync_service')->syncMedia($mediaPaths);
+
+        $this->View()->assign([
+            'success' => true,
+            'total' => count($mediaPaths)
+        ]);
+
         //@TODO call Service with Data like offset and limit
     }
+
+    private function getMediaPaths($offset, $limit)
+    {
+        $dbal = $this->get('dbal_connection');
+        $builder = $dbal->createQueryBuilder();
+
+        $builder->select(['path'])
+            ->from('s_media')
+            ->orderBy('id', 'DESC')
+            ->setFirstResult($offset)
+            ->setMaxResults($limit);
+
+        $result = $builder->execute()->fetchAll();
+
+        return $result;
+    }
+
 }

@@ -23,7 +23,7 @@ Ext.define('Shopware.apps.StagingList.controller.Main', {
 
     onPrepareProcess: function (window){
         var me = this;
-console.log('onPrepareProcess');
+
         window.fireEvent('createStagingWindow');
     },
 });

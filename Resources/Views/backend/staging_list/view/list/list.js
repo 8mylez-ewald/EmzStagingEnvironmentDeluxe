@@ -39,15 +39,13 @@ Ext.define('Shopware.apps.StagingList.view.list.List', {
             iconCls: 'sprite-cookie--plus',
             action: 'staginglist-list-list-prepare-staging',
             handler: function(){
-                console.log('I like cookies');
-                // me.fireEvent('startProcess', me, this);
                 me.fireEvent('prepareProcess', me);
             }
         });
 
         items.push({
             action: 'actionName', iconCls: 'sprite-arrow-circle-315', handler: function() {
-                console.log('hi');
+
             }
         });
 

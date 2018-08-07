@@ -10,7 +10,7 @@ Ext.define('Shopware.apps.StagingList.controller.Staging', {
 
     init: function () {
         var me = this;
-console.log('inStagingController');
+
         me.control({
             'staginglist-staging-main': {
                 startProcess: me.onStartProcess
@@ -35,22 +35,62 @@ console.log('inStagingController');
 
         me.batchConfig = me.getBatchConfig(win);
 
-        me.runRequest(0, win);
+        setTimeout(function() {
+            me.runRequest(0, win);
+        }, 500);
+
+
     },
 
     getBatchConfig: function (win) {
         var me = this;
 
+        me.getTotalImages();
+
         return {
             batchSize: 20,
             snippet: 'win.snippets.batch.process',
-            totalCount: 146,
+            totalCount: me.totalImages,
             progress: win.stagingProgress,
             requestUrl: '{url controller="StagingList" action="createStaging"}',
             params: {
                 offset: 0
             }
         }
+    },
+
+    getTotalImages: function(){
+        var me = this;
+
+        Ext.Ajax.request({
+            url: '{url controller="StagingList" action="getTotalImages"}',
+            async: false,
+            method: 'POST',
+            timeout: 4000000,
+            success: function (response) {
+                var operation = Ext.decode(response.responseText);
+
+                if (operation.success !== true) {
+                    me.errors.push(operation.message);
+                }
+
+                if (operation.fails && operation.fails.length > 0) {
+                    Shopware.Notification.createGrowlMessage(
+                        "",
+                        operation.fails.join("\n<br>")
+                    );
+                }
+
+                me.totalImages = operation.totalCount;
+
+            },
+            failure: function (response) {
+                Shopware.Msg.createStickyGrowlMessage({
+                    title: '{s name=thumbnail/batch/timeOutTitle}An error occured{/s}',
+                    text: "{s name=thumbnail/batch/timeOut}The server could not handle the request. Please choose a smaller batch size.{/s}"
+                });
+            }
+        });
     },
 
     runRequest: function (offset, win) {

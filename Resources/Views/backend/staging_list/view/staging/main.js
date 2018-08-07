@@ -107,7 +107,7 @@ Ext.define('Shopware.apps.StagingList.view.staging.Main', {
      */
     initComponent: function () {
         var me = this;
-        console.log('main staging js is used');
+
         me.registerEvents();
         me.items = me.createItems();
         me.callParent(arguments);

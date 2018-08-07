@@ -20,6 +20,16 @@ class Shopware_Controllers_Backend_StagingList extends Shopware_Controllers_Back
         $em->flush();
     }
 
+    public function getTotalImagesAction()
+    {
+        $totalCount = (int)$this->getTotalMedia();
+
+        $this->View()->assign([
+            'success' => true,
+            'totalCount' => $totalCount
+        ]);
+    }
+
     public function createStagingAction()
     {
         $offset = $this->Request()->getParam('offset');
@@ -28,12 +38,32 @@ class Shopware_Controllers_Backend_StagingList extends Shopware_Controllers_Back
         $mediaPaths = $this->getMediaPaths($offset, $limit);
         $this->get('emz_sed.sync_service')->syncMedia($mediaPaths);
 
-        $this->View()->assign([
-            'success' => true,
-            'total' => count($mediaPaths)
-        ]);
+        if(!empty($mediaPaths)){
+            $this->View()->assign([
+                'success' => true,
+                'total' => count($mediaPaths)
+            ]);
+        }else{
+            $this->View()->assign([
+                'success' => false,
+                'failure' => true
+            ]);
+        }
 
         //@TODO call Service with Data like offset and limit
+    }
+
+    private function getTotalMedia()
+    {
+        $dbal = $this->get('dbal_connection');
+        $builder = $dbal->createQueryBuilder();
+
+        $builder->select('count(id)')
+            ->from('s_media');
+
+        $result = $builder->execute()->fetchAll(\PDO::FETCH_COLUMN);
+
+        return $result[0];
     }
 
     private function getMediaPaths($offset, $limit)
@@ -51,5 +81,4 @@ class Shopware_Controllers_Backend_StagingList extends Shopware_Controllers_Back
 
         return $result;
     }
-
 }

@@ -16,7 +16,8 @@ Ext.define('Shopware.apps.StagingList', {
         'detail.Container',
         'detail.Window',
 
-        'staging.Main'
+        'staging.Main',
+        'staging.Thumbnails',
     ],
 
     models: [ 'Main' ],

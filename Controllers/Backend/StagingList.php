@@ -53,6 +53,16 @@ class Shopware_Controllers_Backend_StagingList extends Shopware_Controllers_Back
         //@TODO call Service with Data like offset and limit
     }
 
+    public function getAlbumsAction()
+    {
+        $albums = $this->getAllAlbums();
+
+        $this->View()->assign([
+            'success' => true,
+            'albums' => $albums
+        ]);
+    }
+
     private function getTotalMedia()
     {
         $dbal = $this->get('dbal_connection');
@@ -62,7 +72,6 @@ class Shopware_Controllers_Backend_StagingList extends Shopware_Controllers_Back
             ->from('s_media');
 
         $result = $builder->execute()->fetchAll(\PDO::FETCH_COLUMN);
-
         return $result[0];
     }
 
@@ -78,7 +87,20 @@ class Shopware_Controllers_Backend_StagingList extends Shopware_Controllers_Back
             ->setMaxResults($limit);
 
         $result = $builder->execute()->fetchAll();
+        return $result;
+    }
 
+    private function getAllAlbums()
+    {
+        $dbal = $this->get('dbal_connection');
+        $builder = $dbal->createQueryBuilder();
+
+        $builder->select(['a.id, count(DISTINCT m.id) as amount'])
+            ->from('s_media_album', 'a')
+            ->innerJoin('a', 's_media', 'm', 'm.albumID = a.id')
+            ->groupBy(1);
+
+        $result = $builder->execute()->fetchAll();
         return $result;
     }
 }

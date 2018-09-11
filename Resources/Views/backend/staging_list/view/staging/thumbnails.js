@@ -1,5 +1,5 @@
 
-Ext.define('Shopware.apps.StagingList.view.staging.Main', {
+Ext.define('Shopware.apps.StagingList.view.staging.Thumbnails', {
 
     /**
      * Define that the order main window is an extension of the enlight application window
@@ -11,7 +11,7 @@ Ext.define('Shopware.apps.StagingList.view.staging.Main', {
      * List of short aliases for class names. Most useful for defining xtypes for widgets.
      * @string
      */
-    alias: 'widget.staginglist-staging-main',
+    alias: 'widget.staginglist-staging-thumbnails',
 
     /**
      * Define window width
@@ -94,7 +94,7 @@ Ext.define('Shopware.apps.StagingList.view.staging.Main', {
     /**
      * The title shown in the window header
      */
-    title: '{s name=thumbnail/batch/title}Copy Media{/s}',
+    title: '{s name=thumbnail/batch/title}Create thumbnails{/s}',
 
     /**
      * The default generation batch size
@@ -118,11 +118,11 @@ Ext.define('Shopware.apps.StagingList.view.staging.Main', {
      */
     createItems: function () {
         var me = this;
-
-        me.stagingProgress = me.createProgressBar('Staging', 'Dateien kopieren ...');
-
+console.log('before thumbnail Progress');
+        me.thumbnailProgress = me.createProgressBar('Thumbnails', 'Thumbnails generieren ...');
+console.log('thumbnail Progress');
         return [
-            me.stagingProgress,
+            me.thumbnailProgress,
             me.createButtons()
         ];
     },
@@ -132,7 +132,6 @@ Ext.define('Shopware.apps.StagingList.view.staging.Main', {
      */
     registerEvents: function () {
         this.addEvents(
-            'startProcess',
             'cancelProcess'
         );
     },
@@ -152,24 +151,6 @@ Ext.define('Shopware.apps.StagingList.view.staging.Main', {
             margin: '0 0 15',
             style: 'border-width: 1px !important;',
             cls: 'left-align'
-        });
-    },
-
-    /**
-     * Returns a new start button for the generation process
-     *
-     * @returns [object]
-     */
-    createStartButton: function () {
-        var me = this;
-
-        return Ext.create('Ext.button.Button', {
-            text: me.snippets.batch.start,
-            cls: 'primary',
-            action: 'start',
-            handler: function () {
-                me.fireEvent('startProcess', me, this);
-            }
         });
     },
 
@@ -222,14 +203,12 @@ Ext.define('Shopware.apps.StagingList.view.staging.Main', {
     createButtons: function () {
         var me = this;
 
-        me.startButton = me.createStartButton();
         me.closeButton = me.createCloseButton();
         me.cancelButton = me.createCancelButton();
 
         return Ext.create('Ext.container.Container', {
             layout: 'hbox',
             items: [
-                me.startButton,
                 me.cancelButton,
                 me.closeButton
             ]

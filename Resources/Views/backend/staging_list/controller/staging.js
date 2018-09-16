@@ -187,7 +187,7 @@ Ext.define('Shopware.apps.StagingList.controller.Staging', {
 
             me.errors = [];
         }
-
+console.log(win);
         win.cancelButton.hide();
         win.closeButton.enable();
         win.close();
@@ -222,9 +222,9 @@ Ext.define('Shopware.apps.StagingList.controller.Staging', {
 
         // me.allAlbums.forEach(function(value) {
         //     setTimeout(function() {
-        console.log(me.allAlbums);
+        // console.log(me.allAlbums);
         value = me.allAlbums[0];
-        console.log(value);
+        // console.log(value);
         if(value){
             console.log('value set');
                 me.batchConfigThumbnail = {
@@ -237,7 +237,7 @@ Ext.define('Shopware.apps.StagingList.controller.Staging', {
                         limit: 20
                     },
                     progress: me.thumbnailProgress,
-                    requestUrl: '{url controller="MediaManager" action="createThumbnails"}',
+                    requestUrl: 'http://localhost:8888/shopware_546/staging/backend/MediaManager/createThumbnails',
                 };
                 me.runRequestThumbnail(0, me);
         //     }, 500);
@@ -300,8 +300,6 @@ Ext.define('Shopware.apps.StagingList.controller.Staging', {
         params.offset = offset;
         params.limit = config.batchSize;
 
-        console.log(params, 'params');
-
         // Sends a request to create new thumbnails according to the batch informations
         Ext.Ajax.request({
             url: config.requestUrl,
@@ -331,12 +329,20 @@ Ext.define('Shopware.apps.StagingList.controller.Staging', {
                 }
 // console.log(newOffset, 'newOffset');
 // console.log(config, 'config');
+console.log(me.allAlbums, 'allAlbums');
+console.log(me.allAlbums.length);
+                if(me.allAlbums.length < 1){
+                    me.onProcessThumbnailFinish(win);
+                    return;
+                }
 
                 if (newOffset == config.totalCount) {
                     // me.batchConfigThumbnail.progress.updateText(me.snippets.finished);
                     me.allAlbums.shift();
-                    me.startProcessThumbnail();
-                    return;
+                    console.log(me.allAlbums, 'allAblums after shift');
+                    if(me.allAlbums.length > 0){
+                        me.startProcessThumbnail();
+                    }
                 }
 // console.log(newOffset,'newOffset');
 // console.log(win, 'win');
@@ -371,11 +377,10 @@ Ext.define('Shopware.apps.StagingList.controller.Staging', {
 
             me.errors = [];
         }
-
-        console.log(win);
-        console.log(me);
-        // win.cancelButton.hide();
-        // win.closeButton.enable();
-        me.window.close();
+console.log('ende');
+console.log(win.Window);
+        win.Window.cancelButton.hide();
+        win.Window.closeButton.enable();
+        win.Window.close();
     },
 });

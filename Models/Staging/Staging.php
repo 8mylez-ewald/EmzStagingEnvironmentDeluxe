@@ -339,7 +339,7 @@ class Staging extends ModelEntity
      */
     public function setDeactivateCompilerCaching($deactivateCompilerCaching)
     {
-        $this->$deactivateCompilerCaching = $deactivateCompilerCaching;
+        $this->deactivateCompilerCaching = $deactivateCompilerCaching;
     }
 
     /**

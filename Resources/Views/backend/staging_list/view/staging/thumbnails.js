@@ -118,9 +118,9 @@ Ext.define('Shopware.apps.StagingList.view.staging.Thumbnails', {
      */
     createItems: function () {
         var me = this;
-console.log('before thumbnail Progress');
+// console.log('before thumbnail Progress');
         me.thumbnailProgress = me.createProgressBar('Thumbnails', 'Thumbnails generieren ...');
-console.log('thumbnail Progress');
+// console.log('thumbnail Progress');
         return [
             me.thumbnailProgress,
             me.createButtons()

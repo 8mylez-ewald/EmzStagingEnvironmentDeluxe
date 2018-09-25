@@ -24,14 +24,14 @@ class Controller implements SubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            'Enlight_Controller_Dispatcher_ControllerPath_Frontend_Staging' => 'onGetControllerPath',
+            'Enlight_Controller_Dispatcher_ControllerPath_Frontend_StagingCtrl' => 'onGetControllerPath',
             'Enlight_Controller_Dispatcher_ControllerPath_Backend_StagingList' => 'addStagingListController'
         ];
     }
 
     public function onGetControllerPath()
     {
-        return __DIR__ . '/../Controllers/Frontend/Staging.php';
+        return __DIR__ . '/../Controllers/Frontend/StagingCtrl.php';
     }
 
     public function addStagingListController()

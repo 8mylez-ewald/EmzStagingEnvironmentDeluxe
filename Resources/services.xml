@@ -18,5 +18,10 @@
             <tag name="shopware.event_subscriber" />
         </service>
 
+        <service id="emz_sed.emz_thumbnail" class="EmzStagingEnvironmentDeluxe\Components\EmzThumbnail">
+            <argument type="service" id="dbal_connection" />
+            <argument type="service" id="models" />
+        </service>
+
     </services>
 </container>

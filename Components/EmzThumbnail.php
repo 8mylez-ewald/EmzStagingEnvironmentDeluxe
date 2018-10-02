@@ -4,15 +4,21 @@ namespace EmzStagingEnvironmentDeluxe\Components;
 
 use Doctrine\DBAL\Connection;
 use Shopware\Components\Model\ModelManager;
+use Shopware\Components\Thumbnail\Manager;
 
 class EmzThumbnail
 {
     private $connection;
     private $modelManager;
 
-    public function __construct(Connection $connection, ModelManager $modelManager) {
+    public function __construct(
+        Connection $connection,
+        ModelManager $modelManager,
+        Manager $thumbnailManager
+    ) {
         $this->connection = $connection;
         $this->modelManager = $modelManager;
+        $this->thumbnailManager = $thumbnailManager;
     }
 
     public function createThumbnails($params)
@@ -23,13 +29,13 @@ class EmzThumbnail
         $thumbnailSizes = $settings->getThumbnailSize();
 
         if (empty($thumbnailSizes) || empty($thumbnailSizes[0])) {
-            $this->View()->assign(['success' => false]);
+            // $this->View()->assign(['success' => false]);
 
             return;
         }
 
         /** @var $manager Shopware\Components\Thumbnail\Manager * */
-        $manager = $this->get('thumbnail_manager');
+        $manager = $this->thumbnailManager;
 
         $fails = [];
         foreach ($medias as $media) {

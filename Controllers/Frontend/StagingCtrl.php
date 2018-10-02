@@ -35,13 +35,21 @@ class Shopware_Controllers_Frontend_StagingCtrl extends Enlight_Controller_Actio
 
     }
 
-    public function createThumbnailAction(){
+    public function createThumbnailAction()
+    {
+        Shopware()->Plugins()->Controller()->Json()->setPadding();
+        $this->Front()->Plugins()->ViewRenderer()->setNoRender();
+
         $params['offset'] = $this->Request()->getParam('offset');
         $params['limit'] = $this->Request()->getParam('limit');
         $params['albumId'] = $this->Request()->getParam('albumId');
 
         $thumbnailsCreation = $this->get('emz_sed.emz_thumbnail')->createThumbnails($params);
 
-        $this->View()->assign(['success' => true, 'total' => count($thumbnailsCreation['medias']) * count($thumbnailsCreation['thumbnailSizes']), 'fails' => $thumbnailsCreation['fails']]);
+        $this->Response()->setBody(json_encode(
+            [ 'success' => true,
+              'total' => count($thumbnailsCreation['medias']) * count($thumbnailsCreation['thumbnailSizes']),
+              'fails' => $thumbnailsCreation['fails']]
+        ));
     }
 }

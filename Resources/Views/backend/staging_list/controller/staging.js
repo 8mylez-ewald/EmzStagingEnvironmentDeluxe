@@ -40,17 +40,16 @@ Ext.define('Shopware.apps.StagingList.controller.Staging', {
         setTimeout(function() {
             me.runRequest(0, win);
         }, 500);
-
     },
 
     getBatchConfig: function (win) {
         var me = this;
 
         me.getTotalImages();
-
+console.log(win.stagingProgress, 'win.stagingProgress');
         return {
             batchSize: 20,
-            snippet: 'win.snippets.batch.process',
+            snippet: win.snippets.batch.process,
             totalCount: me.totalImages,
             progress: win.stagingProgress,
             requestUrl: '{url controller="StagingList" action="createStaging"}',
@@ -106,9 +105,16 @@ Ext.define('Shopware.apps.StagingList.controller.Staging', {
             win.closeButton.enable();
             return;
         }
-
+console.log(config.progress, 'files: config.progress');
         if (config.progress) {
             // sets a new progress status
+            console.log('sets a new progress status');
+            console.log(offset, 'offset');
+            console.log(config.batchSize, 'config.batchSize');
+            console.log(config.totalCount, 'config.totalCount');
+            console.log(config.snippet, 'config.snippet');
+            console.log(config.snippet, 'config.snippet');
+
             config.progress.updateProgress(
                     (offset + config.batchSize) / config.totalCount,
                     Ext.String.format(
@@ -150,11 +156,11 @@ Ext.define('Shopware.apps.StagingList.controller.Staging', {
                     config.batchSize = config.totalCount - offset;
                     newOffset = (offset + config.batchSize);
                 }
-
+console.log(me.batchConfig, 'Files: me.batchConfig');
                 if (newOffset === config.totalCount) {
                     me.batchConfig.progress.updateText(me.snippets.finished);
                     me.onProcessFinish(win);
-                    return;
+                    // return;
                 }
 
                 me.runRequest(newOffset, win);
@@ -179,6 +185,7 @@ Ext.define('Shopware.apps.StagingList.controller.Staging', {
         var me = this;
 
         if (!Ext.isEmpty(me.errors)) {
+            console.log('ERROR');
             var message = me.errors.join("\n");
 
             Shopware.Msg.createStickyGrowlMessage({
@@ -188,15 +195,21 @@ Ext.define('Shopware.apps.StagingList.controller.Staging', {
 
             me.errors = [];
         }
-// console.log(win);
-        win.cancelButton.hide();
-        win.closeButton.enable();
-        win.close();
+console.log(win, 'win in process finish');
+        // win.cancelButton.hide();
+        // win.closeButton.enable();
+        win.hide();
+
+        // win.destroy();
 
         me.Window = me.getView('staging.Thumbnails').create({ }).show();
         me.getAlbums();
+
+        console.log(this);
         // console.log(me.allAlbums);
-        me.startProcessThumbnail();
+        console.log(win, 'win');
+        console.log(me.Window, 'me.Window');
+        me.startProcessThumbnail(me.Window);
     },
 
     getAlbums: function(){
@@ -218,8 +231,9 @@ Ext.define('Shopware.apps.StagingList.controller.Staging', {
         });
     },
 
-    startProcessThumbnail: function(){
+    startProcessThumbnail: function(winTh){
         var me = this;
+        console.log(winTh, 'winTh');
         console.log('1: startProcessThumbnail');
         // me.allAlbums.forEach(function(value) {
         //     setTimeout(function() {
@@ -228,7 +242,7 @@ Ext.define('Shopware.apps.StagingList.controller.Staging', {
         // console.log(value, 'startProcess: value');
         // console.log(value);
         if(value){
-            // console.log('value set');
+            console.log('value set');
                 me.batchConfigThumbnail = {
                     batchSize: 20,
                     snippet: 'Creating thumbnails for [0]/[1] images',
@@ -238,11 +252,11 @@ Ext.define('Shopware.apps.StagingList.controller.Staging', {
                         offset: 0,
                         limit: 20
                     },
-                    progress: me.thumbnailProgress,
+                    progress: winTh.thumbnailProgress,
                     requestUrl: 'http://localhost:8888/shopware_546/staging/stagingctrl/createThumbnail',
                 };
                 // console.log(me.allAlbums[0], 'albums 0');
-                me.runRequestThumbnail(0, me);
+                me.runRequestThumbnail(0, me, winTh);
         //     }, 500);
         // });
         }else{
@@ -273,7 +287,7 @@ Ext.define('Shopware.apps.StagingList.controller.Staging', {
         // });
     },
 
-    runRequestThumbnail: function (offset, win) {
+    runRequestThumbnail: function (offset, winAct, winTh) {
         var me = this,
             config = me.batchConfigThumbnail,
             params = config.params;
@@ -283,12 +297,13 @@ console.log('2: runRequestThumbnail');
 
         // if cancel button was pressed
         if (me.cancelOperation) {
-            win.closeButton.enable();
+            winAct.closeButton.enable();
             return;
         }
-
+console.log(config.progress, 'progress');
         if (config.progress) {
             // sets a new progress status
+            console.log('sets a new progress status');
             config.progress.updateProgress(
                     (offset + config.batchSize) / config.totalCount,
                     Ext.String.format(
@@ -307,8 +322,8 @@ console.log('2: runRequestThumbnail');
         console.log(config.totalCount, 'config.totalCount');
 
         if(me.allAlbums.length < 1){
-            console.log('3: me.onProcessThumbnailFinish(win);');
-            me.onProcessThumbnailFinish(win);
+            console.log('3: me.onProcessThumbnailFinish(winAct);');
+            me.onProcessThumbnailFinish(winAct);
             return;
             console.log('4: afterProcessFinished?');
         }
@@ -345,23 +360,23 @@ console.log('2: runRequestThumbnail');
 // console.log(me.allAlbums, 'allAlbums');
 // console.log(me.allAlbums.length), 'allAlbumsLength';
                 if(me.allAlbums.length < 1){
-                    console.log('3: me.onProcessThumbnailFinish(win);');
-                    me.onProcessThumbnailFinish(win);
+                    console.log('3: me.onProcessThumbnailFinish(winAct);');
+                    me.onProcessThumbnailFinish(winAct);
                     return;
                     console.log('4: afterProcessFinished?');
                 }
-
+console.log(me.batchConfigThumbnail, 'Thumb: me.batchConfig');
                 if (newOffset == config.totalCount) {
                     // me.batchConfigThumbnail.progress.updateText(me.snippets.finished);
                     me.allAlbums.shift();
                     // console.log(me.allAlbums, 'allAblums after shift');
                     if(me.allAlbums.length > 0){
-                        me.startProcessThumbnail();
+                        me.startProcessThumbnail(winTh);
                     }
                 }
 // console.log(newOffset,'newOffset');
-// console.log(win, 'win');
-                me.runRequestThumbnail(newOffset, win);
+// console.log(winAct, 'winAct');
+                me.runRequestThumbnail(newOffset, winAct);
             },
             failure: function (response) {
                 Shopware.Msg.createStickyGrowlMessage({
@@ -369,7 +384,7 @@ console.log('2: runRequestThumbnail');
                     text: "{s name=thumbnail/batch/timeOut}The server could not handle the request. Please choose a smaller batch size.{/s}"
                 });
 
-                // me.onProcessFinishThumbnail(win);
+                // me.onProcessFinishThumbnail(winAct);
             }
         });
     },
